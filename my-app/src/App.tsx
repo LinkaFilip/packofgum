@@ -19,3 +19,13 @@ export default function App() {
         </PinInput>
   );
 }
+
+fetch("https://packofgum.netlify.app/api/auth/verify", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    code: "123456",
+  }),
+});
