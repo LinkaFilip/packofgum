@@ -58,6 +58,7 @@ export default function App() {
   }}
   maxLength={6}
 />
+
         <PinInput.Group maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
           <PinInput.Slot index={0} />
           <PinInput.Slot index={1} />
@@ -67,7 +68,6 @@ export default function App() {
           <PinInput.Slot index={4} />
           <PinInput.Slot index={5} />
         </PinInput.Group>
-      </PinInput>
 
       <button onClick={() => verifyCode(value)} disabled={loading} style={{ padding: "8px 12px", cursor: loading ? "not-allowed" : "pointer",}}>
         {loading ? "Verifying..." : "Verify"}
