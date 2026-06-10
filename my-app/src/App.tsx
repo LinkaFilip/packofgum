@@ -49,7 +49,7 @@ export default function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <PinInput size="xs" value={value} onChange={setValue}>
+      <PinInput size="xs" value={value} onChange={(v) => { console.log("RAW VALUE:", v); setValue(v); }}>
         <PinInput.Group maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
           <PinInput.Slot index={0} />
           <PinInput.Slot index={1} />
@@ -61,14 +61,7 @@ export default function App() {
         </PinInput.Group>
       </PinInput>
 
-      <button
-        onClick={() => verifyCode(value)}
-        disabled={loading}
-        style={{
-          padding: "8px 12px",
-          cursor: loading ? "not-allowed" : "pointer",
-        }}
-      >
+      <button onClick={() => verifyCode(value)} disabled={loading} style={{ padding: "8px 12px", cursor: loading ? "not-allowed" : "pointer",}}>
         {loading ? "Verifying..." : "Verify"}
       </button>
 
