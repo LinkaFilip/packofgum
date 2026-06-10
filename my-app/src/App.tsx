@@ -50,6 +50,7 @@ export default function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        
       <input
   value={value}
   onChange={(e) => {
@@ -58,16 +59,6 @@ export default function App() {
   }}
   maxLength={6}
 />
-
-        <PinInput.Group maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
-          <PinInput.Slot index={0} />
-          <PinInput.Slot index={1} />
-          <PinInput.Slot index={2} />
-          <PinInput.Separator />
-          <PinInput.Slot index={3} />
-          <PinInput.Slot index={4} />
-          <PinInput.Slot index={5} />
-        </PinInput.Group>
 
       <button onClick={() => verifyCode(value)} disabled={loading} style={{ padding: "8px 12px", cursor: loading ? "not-allowed" : "pointer",}}>
         {loading ? "Verifying..." : "Verify"}
