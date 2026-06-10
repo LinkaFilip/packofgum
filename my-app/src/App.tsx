@@ -10,7 +10,7 @@ export default function App() {
 
   const verifyCode = async (code: string) => {
     if (!code || code.length !== 6) return;
-
+    console.log("Calling backend with:", code);
     setLoading(true);
     setStatus("idle");
     setMessage("");
@@ -43,11 +43,9 @@ export default function App() {
   };
 
   // Auto-submit when 6 digits are entered
-  useEffect(() => {
-    if (value.length === 6) {
-      verifyCode(value);
-    }
-  }, [value]);
+    useEffect(() => {
+    console.log("VALUE:", value);
+    }, [value]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
