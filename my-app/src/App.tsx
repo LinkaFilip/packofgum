@@ -50,11 +50,14 @@ export default function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <PinInput
-  size="xs"
+      <input
   value={value}
-  onValueChange={setValue}
->
+  onChange={(e) => {
+    console.log("INPUT:", e.target.value);
+    setValue(e.target.value);
+  }}
+  maxLength={6}
+/>
         <PinInput.Group maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
           <PinInput.Slot index={0} />
           <PinInput.Slot index={1} />
