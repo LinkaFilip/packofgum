@@ -3,6 +3,7 @@ import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { PinInput } from "./components/base/input/pin-input";
 
 export default function App() {
+  console.log("APP LOADED")
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
