@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 import { PinInput } from './components/base/input/pin-input'
+import { AlertCircle } from "@untitledui/icons";
 
 export default function App () {
   console.log('APP LOADED')
@@ -48,13 +49,21 @@ export default function App () {
 
   // Auto-submit when 6 digits are entered
   useEffect(() => {
-    console.log('VALUE:', value)
+    if (value.length === 6 && !loading) {
+      verifyCode(value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
 
   return (
     <div className='flex flex-col gap-4'>
       <PinInput size='xs'>
-        <PinInput.Group maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
+        <PinInput.Group
+          maxLength={6}
+          pattern={REGEXP_ONLY_DIGITS}
+          value={value}
+          onChange={(v) => setValue(String(v))}
+        >
           <PinInput.Slot index={0} />
           <PinInput.Slot index={1} />
           <PinInput.Slot index={2} />
@@ -64,6 +73,7 @@ export default function App () {
           <PinInput.Slot index={5} />
         </PinInput.Group>
       </PinInput>
+
 
       {status === 'error' && (
         <div className='flex items-center gap-2'>
