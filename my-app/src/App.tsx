@@ -9,13 +9,26 @@ export default function App () {
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
-  const [page, setPage] = useState<'verify' | 'profile'>('verify')
+  const [page, setPage] = useState<'verify' | 'profile'>(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('staySignedIn') === 'true') {
+      return 'profile'
+    }
+    return 'verify'
+  })
+  const [staySignedIn, setStaySignedIn] = useState(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('staySignedIn') === 'true') {
+      return true
+    }
+    return false
+  })
 
   const signOut = () => {
     setPage('verify')
     setValue('')
     setStatus('idle')
     setMessage('')
+    setStaySignedIn(false)
+    localStorage.removeItem('staySignedIn')
   }
 
   const verifyCode = async (code: string) => {
@@ -46,6 +59,11 @@ export default function App () {
       setStatus('success')
       setMessage('Code verified successfully ✅')
       setPage('profile')
+      if (staySignedIn) {
+        localStorage.setItem('staySignedIn', 'true')
+      } else {
+        localStorage.removeItem('staySignedIn')
+      }
       console.log('Success:', data)
     } catch (err: any) {
       setStatus('error')
@@ -64,10 +82,6 @@ export default function App () {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
 
-  const staySignedIn = () => {
-    setMessage('You are still signed in.')
-  }
-
   if (page === 'profile') {
     return (
       <div className='flex min-h-screen items-center justify-center'>
@@ -75,22 +89,13 @@ export default function App () {
           <h1 className='text-3xl font-semibold text-slate-900'>Profile Page</h1>
           <p className='mt-3 text-slate-500'>You are signed in.</p>
           {message && <p className='mt-4 text-sm text-slate-600'>{message}</p>}
-          <div className='mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center'>
-            <button
-              type='button'
-              onClick={staySignedIn}
-              className='rounded-full bg-slate-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-600'
-            >
-              Stay signed in
-            </button>
-            <button
-              type='button'
-              onClick={signOut}
-              className='rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100'
-            >
-              Sign out
-            </button>
-          </div>
+          <button
+            type='button'
+            onClick={signOut}
+            className='mt-6 rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100'
+          >
+            Sign out
+          </button>
         </div>
       </div>
     )
@@ -114,6 +119,16 @@ export default function App () {
           <PinInput.Slot index={5} />
         </PinInput.Group>
       </PinInput>
+
+      <label className='flex items-center gap-2 text-sm text-slate-700'>
+        <input
+          type='checkbox'
+          checked={staySignedIn}
+          onChange={() => setStaySignedIn((prev) => !prev)}
+          className='h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500'
+        />
+        Stay signed in
+      </label>
 
       {status === 'error' && (
         <div className='flex items-center gap-2 text-red-600'>
