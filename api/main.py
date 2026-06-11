@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
 app = FastAPI()
 
 
@@ -23,6 +23,11 @@ def read_root():
     return {"message": "API is running"}
 
 @app.post("/api/auth/verify")
-def verify(req: VerifyRequest):
-    return {"success": req.code == "123456"}
+def verify(data: VerifyRequest):
+    if data.code != "123456":
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid code"
+        )
 
+    return {"success": True}
