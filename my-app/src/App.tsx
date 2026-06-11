@@ -2,22 +2,29 @@ import { useEffect, useState } from 'react'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 import { PinInput } from './components/base/input/pin-input'
 import { Checkbox } from './components/base/checkbox/checkbox.tsx'
-import { AlertCircle } from "@untitledui/icons";
+import { Button } from './components/base/buttons/button.tsx'
+
+import { AlertCircle } from '@untitledui/icons'
 
 export default function App () {
-  console.log('APP LOADED')
   const [value, setValue] = useState('')
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
   const [page, setPage] = useState<'verify' | 'profile'>(() => {
-    if (typeof window !== 'undefined' && localStorage.getItem('staySignedIn') === 'true') {
+    if (
+      typeof window !== 'undefined' &&
+      localStorage.getItem('staySignedIn') === 'true'
+    ) {
       return 'profile'
     }
     return 'verify'
   })
   const [staySignedIn, setStaySignedIn] = useState(() => {
-    if (typeof window !== 'undefined' && localStorage.getItem('staySignedIn') === 'true') {
+    if (
+      typeof window !== 'undefined' &&
+      localStorage.getItem('staySignedIn') === 'true'
+    ) {
       return true
     }
     return false
@@ -46,7 +53,6 @@ export default function App () {
 
   const verifyCode = async (code: string) => {
     if (!code || code.length !== 6) return
-    console.log('Calling backend with:', code)
     setLoading(true)
     setStatus('idle')
     setMessage('')
@@ -76,28 +82,20 @@ export default function App () {
       } else {
         localStorage.removeItem('staySignedIn')
       }
-      console.log('Success:', data)
     } catch (err: any) {
       setStatus('error')
-      console.error(err)
     } finally {
       setLoading(false)
     }
   }
 
-  // Auto-submit when 6 digits are entered
-  useEffect(() => {
-    if (value.length === 6 && !loading) {
-      verifyCode(value);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value])
-
   if (page === 'profile') {
     return (
       <div className='flex min-h-screen items-center justify-center'>
         <div className='rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm'>
-          <h1 className='text-3xl font-semibold text-slate-900'>Profile Page</h1>
+          <h1 className='text-3xl font-semibold text-slate-900'>
+            Profile Page
+          </h1>
           <p className='mt-3 text-slate-500'>You are signed in.</p>
           {message && <p className='mt-4 text-sm text-slate-600'>{message}</p>}
           <button
@@ -119,7 +117,7 @@ export default function App () {
           maxLength={6}
           pattern={REGEXP_ONLY_DIGITS}
           value={value}
-          onChange={(v) => setValue(String(v))}
+          onChange={v => setValue(String(v))}
         >
           <PinInput.Slot index={0} />
           <PinInput.Slot index={1} />
@@ -133,12 +131,22 @@ export default function App () {
 
       <label className='flex items-center gap-2 text-sm text-slate-700'>
         <Checkbox
-          label="Remember me"
-          hint="Save my login details for next time."
+          label='Remember me'
+          hint='Save my login details for next time.'
           size='sm'
           checked={staySignedIn}
-          onChange={handleStaySignedInChange}></Checkbox>
+          disabled={loading}
+          onChange={handleStaySignedInChange}
+        ></Checkbox>
       </label>
+        <Button
+          color='secondary'
+          size='md'
+          onClick={() => verifyCode(value)}
+          disabled={loading}
+        >
+          {loading ? 'Verifying...' : 'Verify'}
+        </Button>
 
       {status === 'error' && (
         <div className='flex items-center gap-2 text-red-600'>

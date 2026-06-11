@@ -5,20 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "vite build"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "@untitledui/icons": "^0.0.22",
     "input-otp": "^1.4.2",
+    "next": "...",
     "react": "^19.2.6",
     "react-aria-components": "^1.18.0",
     "react-dom": "^19.2.6",
     "tailwind-merge": "^3.6.0",
-    "tailwindcss": "^4.3.0",
-    "next": "..."
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -33,9 +31,5 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build"
   }
 }
