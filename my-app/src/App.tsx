@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 import { PinInput } from './components/base/input/pin-input'
+import { Checkbox } from './components/base/checkbox/checkbox.tsx'
 import { AlertCircle } from "@untitledui/icons";
 
 export default function App () {
@@ -31,6 +32,18 @@ export default function App () {
     localStorage.removeItem('staySignedIn')
   }
 
+  const handleStaySignedInChange = () => {
+    const next = !staySignedIn
+    setStaySignedIn(next)
+    if (typeof window !== 'undefined') {
+      if (next) {
+        localStorage.setItem('staySignedIn', 'true')
+      } else {
+        localStorage.removeItem('staySignedIn')
+      }
+    }
+  }
+
   const verifyCode = async (code: string) => {
     if (!code || code.length !== 6) return
     console.log('Calling backend with:', code)
@@ -57,7 +70,6 @@ export default function App () {
       }
 
       setStatus('success')
-      setMessage('Code verified successfully ✅')
       setPage('profile')
       if (staySignedIn) {
         localStorage.setItem('staySignedIn', 'true')
@@ -67,7 +79,6 @@ export default function App () {
       console.log('Success:', data)
     } catch (err: any) {
       setStatus('error')
-      setMessage(err.message || 'Something went wrong ❌')
       console.error(err)
     } finally {
       setLoading(false)
@@ -121,13 +132,12 @@ export default function App () {
       </PinInput>
 
       <label className='flex items-center gap-2 text-sm text-slate-700'>
-        <input
-          type='checkbox'
+        <Checkbox
+          label="Remember me"
+          hint="Save my login details for next time."
+          size='sm'
           checked={staySignedIn}
-          onChange={() => setStaySignedIn((prev) => !prev)}
-          className='h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500'
-        />
-        Stay signed in
+          onChange={handleStaySignedInChange}>
       </label>
 
       {status === 'error' && (
