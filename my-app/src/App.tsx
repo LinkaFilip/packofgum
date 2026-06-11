@@ -9,9 +9,9 @@ export default function App() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
-  const verifyCode = async (code: string) => {
-    if (!code || code.length !== 6) return;
-    console.log("Calling backend with:", code);
+  const verifyCode = async (req: string) => {
+    if (!req || req.length !== 6) return;
+    console.log("Calling backend with:", req);
     setLoading(true);
     setStatus("idle");
     setMessage("");
@@ -22,7 +22,7 @@ export default function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ req }),
       });
 
       const data = await res.json();
@@ -50,7 +50,7 @@ export default function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        
+
       <input
   value={value}
   onChange={(e) => {
