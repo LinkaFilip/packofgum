@@ -9,6 +9,7 @@ export default function App () {
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
+  const [page, setPage] = useState<'verify' | 'profile'>('verify')
 
   const verifyCode = async (code: string) => {
     if (!code || code.length !== 6) return
@@ -37,6 +38,7 @@ export default function App () {
 
       setStatus('success')
       setMessage('Code verified successfully ✅')
+      setPage('profile')
       console.log('Success:', data)
     } catch (err: any) {
       setStatus('error')
@@ -54,6 +56,17 @@ export default function App () {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
+
+  if (page === 'profile') {
+    return (
+      <div className='flex min-h-screen items-center justify-center'>
+        <div className='rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm'>
+          <h1 className='text-3xl font-semibold text-slate-900'>Profile Page</h1>
+          <p className='mt-3 text-slate-500'>This is your blank profile page after successful verification.</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className='flex flex-col gap-4'>
@@ -74,9 +87,8 @@ export default function App () {
         </PinInput.Group>
       </PinInput>
 
-
       {status === 'error' && (
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-2 text-red-600'>
           <AlertCircle />
           <span>{message}</span>
         </div>
