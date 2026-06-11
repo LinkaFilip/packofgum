@@ -94,17 +94,19 @@ export default function App () {
       <div className='flex min-h-screen items-center justify-center'>
         <div className='rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm'>
           <h1 className='text-3xl font-semibold text-slate-900'>
-            Profile Page
+            Profile <portal></portal>age
           </h1>
           <p className='mt-3 text-slate-500'>You are signed in.</p>
           {message && <p className='mt-4 text-sm text-slate-600'>{message}</p>}
-          <button
+          <Button
             type='button'
             onClick={signOut}
-            className='mt-6 rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100'
+            color='secondary'
+            size='md'
+            className='mt-6 hover:bg-slate-100'
           >
             Sign out
-          </button>
+          </Button>
         </div>
       </div>
     )
