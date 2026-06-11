@@ -64,19 +64,33 @@ export default function App () {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
 
+  const staySignedIn = () => {
+    setMessage('You are still signed in.')
+  }
+
   if (page === 'profile') {
     return (
       <div className='flex min-h-screen items-center justify-center'>
         <div className='rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm'>
           <h1 className='text-3xl font-semibold text-slate-900'>Profile Page</h1>
           <p className='mt-3 text-slate-500'>You are signed in.</p>
-          <button
-            type='button'
-            onClick={signOut}
-            className='mt-6 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700'
-          >
-            Sign out
-          </button>
+          {message && <p className='mt-4 text-sm text-slate-600'>{message}</p>}
+          <div className='mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center'>
+            <button
+              type='button'
+              onClick={staySignedIn}
+              className='rounded-full bg-slate-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-600'
+            >
+              Stay signed in
+            </button>
+            <button
+              type='button'
+              onClick={signOut}
+              className='rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100'
+            >
+              Sign out
+            </button>
+          </div>
         </div>
       </div>
     )
