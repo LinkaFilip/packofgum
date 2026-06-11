@@ -137,7 +137,7 @@ export default function App () {
           hint="Save my login details for next time."
           size='sm'
           checked={staySignedIn}
-          onChange={handleStaySignedInChange}>
+          onChange={handleStaySignedInChange}></Checkbox>
       </label>
 
       {status === 'error' && (
