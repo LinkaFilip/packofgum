@@ -94,7 +94,7 @@ export default function App () {
       <div className='flex min-h-screen items-center justify-center'>
         <div className='rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm'>
           <h1 className='text-3xl font-semibold text-slate-900'>
-            Profile <portal></portal>age
+            Profil page
           </h1>
           <p className='mt-3 text-slate-500'>You are signed in.</p>
           {message && <p className='mt-4 text-sm text-slate-600'>{message}</p>}
@@ -103,7 +103,7 @@ export default function App () {
             onClick={signOut}
             color='secondary'
             size='md'
-            className='mt-6 hover:bg-slate-100'
+            className='w-1/1 mt-6'
           >
             Sign out
           </Button>
