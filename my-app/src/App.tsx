@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 import { PinInput } from './components/base/input/pin-input'
 import { Checkbox } from './components/base/checkbox/checkbox.tsx'
@@ -82,8 +82,11 @@ export default function App () {
       } else {
         localStorage.removeItem('staySignedIn')
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err)
       setStatus('error')
+      setMessage(errorMessage || 'Verification failed')
+      setValue('')
     } finally {
       setLoading(false)
     }
@@ -119,7 +122,13 @@ export default function App () {
           maxLength={6}
           pattern={REGEXP_ONLY_DIGITS}
           value={value}
-          onChange={v => setValue(String(v))}
+          onChange={v => {
+            setValue(String(v))
+            if (status === 'error') {
+              setStatus('idle')
+              setMessage('')
+            }
+          }}
         >
           <PinInput.Slot index={0} />
           <PinInput.Slot index={1} />
